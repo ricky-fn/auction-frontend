@@ -1,5 +1,5 @@
 import React from 'react';
-import { Navbar, Nav, Dropdown } from 'react-bootstrap';
+import { Navbar, Nav, Dropdown, Container } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
 import { useSelector } from 'react-redux';
@@ -19,6 +19,7 @@ const Header = () => {
 
   return (
     <Navbar bg="dark" variant='dark'>
+      <Container className="max-width-container">
       <Navbar.Brand as={Link} to="/">
         <img className="logo" src={logo} alt="Logo" />
       </Navbar.Brand>
@@ -29,7 +30,7 @@ const Header = () => {
             <>
               <Dropdown align='end'>
                 <Dropdown.Toggle as={Nav.Link} id="dropdown-user" className="d-flex align-items-center">
-                  {user.balance} <FaUserCircle size="30"/>
+                  Balance: {user.balance}$&nbsp;&nbsp;<FaUserCircle size="30"/>
                 </Dropdown.Toggle>
                 <Dropdown.Menu>
                   <Dropdown.Item as={Link} to="/create-item">
@@ -50,6 +51,7 @@ const Header = () => {
           )}
         </Nav>
       </Navbar.Collapse>
+      </Container>
     </Navbar>
   );
 };

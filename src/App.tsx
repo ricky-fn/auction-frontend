@@ -1,35 +1,62 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
+import { Container, Table, Button } from 'react-bootstrap';
+import { RootState } from './store/types';
+
 import Header from './components/Header'
 import './App.css'
 
-function App() {
-  const [count, setCount] = useState(0)
+const App:React.FC = () => {
+  const [statusFilter, setStatusFilter] = useState('ongoing'); // State to track the status filter
+
+  const items = useSelector((state: RootState) => state.items); // Get the items from the Redux store
+  
+  const filteredItems = items.filter((item) => item.status === statusFilter); // Filter items based on the selected status
+
+  const handleStatusFilter = (status: string) => {
+    setStatusFilter(status);
+  };
+
+  const handleBid = (itemId: string) => {
+    // Implement your bid logic here
+    console.log(`Bid clicked for item ${itemId}`);
+  };
 
   return (
     <>
       <Header/>
-      <div>
-        <a href="https://vitejs.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <Container className="max-width-container">
+        <div className="my-5">
+          <Button variant="outline-primary" onClick={() => handleStatusFilter('ongoing')}>
+            Ongoing
+          </Button>{' '}
+          <Button variant="outline-primary" onClick={() => handleStatusFilter('complete')}>
+            Complete
+          </Button>
+        </div>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Current Price</th>
+              <th>Duration</th>
+              <th>Bid</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredItems.map((item) => (
+              <tr key={item.itemId}>
+                <td>{item.name}</td>
+                <td>{item.highestBid}</td>
+                <td>{item.startTime}</td>
+                <td>
+                  <Button onClick={() => handleBid(item.itemId)}>Bid</Button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </Container>
     </>
   )
 }
