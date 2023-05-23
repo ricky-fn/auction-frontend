@@ -14,3 +14,8 @@ export interface UserData {
   userId: string | null;
   balance: number;
 }
+
+export interface RootState {
+  user: UserData;
+  items: ItemData[];
+}
