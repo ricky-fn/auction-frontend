@@ -10,6 +10,7 @@ import './index.css'
 import App from './App.tsx'
 import AuthForm from './Auth.tsx';
 import ItemCreation from './ItemCreation.tsx';
+import Deposit from './Deposit.tsx';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
@@ -17,7 +18,7 @@ ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
       <Routes>
         <Route path="/login" element={<AuthForm />} />
         <Route path="/create-item" element={<ItemCreation />} />
-        {/* <Route path="/deposit" element={<DepositPage />} /> */}
+        <Route path="/deposit" element={<Deposit />} />
         <Route path="/" element={<App />} />
       </Routes>
     </Router>
