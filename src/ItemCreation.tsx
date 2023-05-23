@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import Header from './components/Header';
 
 const ItemCreation: React.FC = () => {
   const [itemName, setItemName] = useState('');
@@ -90,52 +91,55 @@ const ItemCreation: React.FC = () => {
   };
 
   return (
-    <div className="form-container">
-      <div className="form-wrapper">
-        <h2>Create Item</h2>
-        {itemNameError && <Alert variant="danger">{itemNameError}</Alert>}
-        {startPriceError && <Alert variant="danger">{startPriceError}</Alert>}
-        {timeWindowError && <Alert variant="danger">{timeWindowError}</Alert>}
-        <Form onSubmit={handleSubmit}>
-          <Form.Group controlId="itemName">
-            <Form.Label>Item Name</Form.Label>
-            <Form.Control
-              type="text"
-              name="itemName"
-              value={itemName}
-              onChange={(e) => setItemName(e.target.value)}
-              onBlur={handleBlur}
-            />
-          </Form.Group>
-          <Form.Group controlId="startPrice" className="mt-2">
-            <Form.Label>Start Price</Form.Label>
-            <Form.Control
-              type="number"
-              name="startPrice"
-              value={startPrice}
-              onChange={(e) => setStartPrice(e.target.value)}
-              onBlur={handleBlur}
-            />
-          </Form.Group>
-          <Form.Group controlId="timeWindow" className="mt-2">
-            <Form.Label>Time Window (e.g., 1h)</Form.Label>
-            <Form.Control
-              type="text"
-              name="timeWindow"
-              value={timeWindow}
-              onChange={(e) => setTimeWindow(e.target.value)}
-              onBlur={handleBlur}
-            />
-          </Form.Group>
-          <div className="d-flex justify-content-end mt-3">
-            <Button variant="secondary" onClick={handleCancel} className="mx-2">
-              Cancel
-            </Button>
-            <Button type="submit">Create</Button>
-          </div>
-        </Form>
+    <>
+      <Header />
+      <div className="form-container">
+        <div className="form-wrapper">
+          <h2>Create Item</h2>
+          {itemNameError && <Alert variant="danger">{itemNameError}</Alert>}
+          {startPriceError && <Alert variant="danger">{startPriceError}</Alert>}
+          {timeWindowError && <Alert variant="danger">{timeWindowError}</Alert>}
+          <Form onSubmit={handleSubmit}>
+            <Form.Group controlId="itemName">
+              <Form.Label>Item Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="itemName"
+                value={itemName}
+                onChange={(e) => setItemName(e.target.value)}
+                onBlur={handleBlur}
+              />
+            </Form.Group>
+            <Form.Group controlId="startPrice" className="mt-2">
+              <Form.Label>Start Price</Form.Label>
+              <Form.Control
+                type="number"
+                name="startPrice"
+                value={startPrice}
+                onChange={(e) => setStartPrice(e.target.value)}
+                onBlur={handleBlur}
+              />
+            </Form.Group>
+            <Form.Group controlId="timeWindow" className="mt-2">
+              <Form.Label>Time Window (e.g., 1h)</Form.Label>
+              <Form.Control
+                type="text"
+                name="timeWindow"
+                value={timeWindow}
+                onChange={(e) => setTimeWindow(e.target.value)}
+                onBlur={handleBlur}
+              />
+            </Form.Group>
+            <div className="d-flex justify-content-end mt-3">
+              <Button variant="secondary" onClick={handleCancel} className="mx-2">
+                Cancel
+              </Button>
+              <Button type="submit">Create</Button>
+            </div>
+          </Form>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
