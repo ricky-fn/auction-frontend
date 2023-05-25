@@ -2,9 +2,8 @@ export interface ItemData {
   itemId: string;
   name: string;
   startingPrice: number;
-  startTime: number;
-  endTime: number;
-  status: string;
+  timestamp: number,
+  expirationTime: number,
   highestBid: number;
   highestBidder: string;
   createdBy: string;
@@ -33,6 +32,11 @@ export interface LoginResponse {
 
 export interface depositResponse {
   amount: number;
+  timestamp: number;
+}
+
+export interface itemCreationResponse {
+  item: ItemData;
   timestamp: number;
 }
 

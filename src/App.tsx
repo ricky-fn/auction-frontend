@@ -11,14 +11,24 @@ import { ItemData, RootState } from './store/types';
 import { setItems } from './store/itemsActions';
 
 const App: React.FC = () => {
-  const [statusFilter, setStatusFilter] = useState('ongoing'); // State to track the status filter
+  const [statusFilter, setStatusFilter] = useState(''); // State to track the status filter
 
   const items = useSelector((state: RootState) => state.items); // Get the items from the Redux store
 
   const [showDialog, setShowDialog] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ItemData | null>(null);
 
-  const filteredItems = items.filter((item) => item.status === statusFilter); // Filter items based on the selected status
+  // Filter items based on the selected status
+  const filteredItems = items.filter((item) => {
+    if (statusFilter === '') {
+      return true
+    } else if (statusFilter === 'ongoing' && item.expirationTime * 1000 < Date.now()) {
+      return true
+    } else if (statusFilter === 'complete' && item.expirationTime * 1000 > Date.now()) {
+      return true
+    }
+    return false
+  });
 
   const dispatch = useDispatch();
 
@@ -38,6 +48,25 @@ const App: React.FC = () => {
 
   const getItemsEndpoint = useSelector((state: RootState) => state.endpoints.getItemsEndpoint);
 
+  const formatDuration = (item: ItemData) => {
+    const timestamp = item.timestamp;
+    const expirationTime = item.expirationTime;
+
+    const durationSeconds = expirationTime - timestamp;
+
+    const hours = Math.floor(durationSeconds / 3600);
+    const remainingSeconds = durationSeconds % 3600;
+    const seconds = remainingSeconds % 60;
+
+    let formattedDuration = `${hours}h`;
+
+    if (seconds !== 0) {
+      formattedDuration += `${seconds}s`;
+    }
+
+    return formattedDuration;
+  };
+
   useEffect(() => {
     // Make API request to loginEndpoint
     axios.get(getItemsEndpoint).then((response) => {
@@ -53,10 +82,10 @@ const App: React.FC = () => {
       <Header />
       <Container className="max-width-container">
         <div className="my-5">
-          <Button variant="outline-primary" onClick={() => handleStatusFilter('ongoing')}>
+          <Button variant={statusFilter === 'ongoing' ? 'primary' : 'outline-primary'} className="mx-2" onClick={() => handleStatusFilter('ongoing')}>
             Ongoing
-          </Button>{' '}
-          <Button variant="outline-primary" onClick={() => handleStatusFilter('complete')}>
+          </Button>
+          <Button variant={statusFilter === 'complete' ? 'primary' : 'outline-primary'} onClick={() => handleStatusFilter('complete')}>
             Complete
           </Button>
         </div>
@@ -74,7 +103,7 @@ const App: React.FC = () => {
               <tr key={item.itemId}>
                 <td>{item.name}</td>
                 <td>{item.highestBid}</td>
-                <td>{item.startTime}</td>
+                <td>{formatDuration(item)}</td>
                 <td>
                   <Button onClick={() => handleBid(item)}>Bid</Button>
                 </td>

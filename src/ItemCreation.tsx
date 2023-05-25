@@ -1,7 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
 import { Form, Button, Alert } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/Header';
+import { RootState, itemCreationResponse } from './store/types';
+import { addItem } from './store/itemsActions';
 
 const ItemCreation: React.FC = () => {
   const [itemName, setItemName] = useState('');
@@ -11,6 +15,7 @@ const ItemCreation: React.FC = () => {
   const [startPriceError, setStartPriceError] = useState<string | null>(null);
   const [timeWindowError, setTimeWindowError] = useState<string | null>(null);
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const validateItemName = (name: string): string | null => {
     if (!name.trim()) {
@@ -67,6 +72,8 @@ const ItemCreation: React.FC = () => {
     }
   };
 
+  const { itemCreationEndpoint } = useSelector((state: RootState) => state.endpoints);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -81,7 +88,18 @@ const ItemCreation: React.FC = () => {
     if (!itemNameError && !startPriceError && !timeWindowError) {
       // Make API request or perform desired action
       // e.g., create the item
-      console.log(itemName, startPrice, timeWindow)
+      const regex = /^(\d+)h$/;
+      const match = timeWindow.match(regex);
+      if (match) {
+        const hours = parseInt(match[1]);
+        const seconds = hours * 3600;
+
+        // Make API request to registerEndpoint
+        axios.post(itemCreationEndpoint, { name: itemName, startingPrice: startPrice, timeWindow: seconds }).then((response) => {
+          const itemData: itemCreationResponse = response.data;
+          dispatch(addItem(itemData.item))
+        });
+      }
     }
   };
 
