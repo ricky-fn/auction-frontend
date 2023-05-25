@@ -1,23 +1,26 @@
-import { UserData } from "./types";
+import { UserData, LoginResponse } from "./types";
 
-const initialState: UserData = {
-  userId: null,
-  balance: 0,
-};
+const initialState: UserData = {};
 
 interface Action {
   type: string;
-  payload: UserData;
+  payload: LoginResponse;
 }
 
 export const userReducer = (state = initialState, action: Action) => {
   switch (action.type) {
     case 'LOGIN':
+      // Store session token in local storage
+      localStorage.setItem('userData', JSON.stringify(action.payload.user));
+
       return {
         ...state,
-        userId: action.payload.userId,
+        ...action.payload.user,
       };
     case 'LOGOUT':
+      // Remove session token from local storage
+      localStorage.removeItem('userData');
+
       return {
         ...state,
         userId: null,
@@ -25,7 +28,7 @@ export const userReducer = (state = initialState, action: Action) => {
     case 'DEPOSIT':
       return {
         ...state,
-        balance: state.balance + action.payload.balance,
+        balance: state.balance + action.payload.amount,
       };
     default:
       return state;

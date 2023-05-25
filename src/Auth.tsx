@@ -1,5 +1,11 @@
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { login } from './store/userActions';
 import { Form, Button, Alert } from 'react-bootstrap';
+
+import { LoginResponse, RootState } from './store/types';
 
 const AuthForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -7,6 +13,9 @@ const AuthForm: React.FC = () => {
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
   const [isLoginView, setIsLoginView] = useState(true);
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validateEmail = (email: string) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -58,6 +67,8 @@ const AuthForm: React.FC = () => {
     }
   };
 
+  const loginEndpoint = useSelector((state: RootState) => state.endpoints.login);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
@@ -68,10 +79,15 @@ const AuthForm: React.FC = () => {
     setPasswordError(passwordError);
 
     if (!emailError && !passwordError) {
-      // Make API request or perform desired action
-      // e.g., authenticate the user or register the user
-      // ...
-      console.log(email, password)
+      // Make API request to loginEndpoint
+      axios.post(loginEndpoint, { username: email, password }).then((response) => {
+        // Assuming the response includes user data
+        const userData: LoginResponse = response.data;
+
+        // Dispatch the login action to update the Redux state
+        dispatch(login(userData));
+        navigate('/')
+      });
     }
   };
 

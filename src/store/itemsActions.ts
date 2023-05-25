@@ -5,7 +5,7 @@ export const addItem = (item: ItemData) => {
 };
 
 export const setItems = (items: ItemData[]) => {
-  return { type: 'SET_ITEMS', payload: { items } };
+  return { type: 'SET_ITEMS', payload: items };
 };
 
 export const bidItem = (itemName: string, bidAmount: number, bidderId: string) => {

@@ -11,11 +11,25 @@ export interface ItemData {
 }
 
 export interface UserData {
-  userId: string | null;
-  balance: number;
+  userId?: string | null;
+  balance?: number;
+  createdDate?: number;
+  sessionId?: string;
+}
+
+export interface EndpointsState {
+  login: string;
+  getItems: string;
+  validateToken: string;
+}
+
+export interface LoginResponse {
+  user: UserData;
+  timestamp: number;
 }
 
 export interface RootState {
   user: UserData;
   items: ItemData[];
+  endpoints: EndpointsState
 }
