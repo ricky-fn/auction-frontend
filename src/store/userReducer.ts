@@ -28,10 +28,7 @@ export const userReducer = (state = initialState, action: Action) => {
       // Remove the authorization header when a user logs out
       delete axios.defaults.headers.common['Authorization'];
 
-      return {
-        ...state,
-        userId: null,
-      };
+      return {};
     case 'DEPOSIT':
       return {
         ...state,

@@ -23,7 +23,8 @@ export interface EndpointsState {
   validateTokenEndpoint: string;
   depositEndpoint: string;
   itemCreationEndpoint: string;
-  bidItemEndpoint: string
+  bidItemEndpoint: string;
+  logoutEndpoint: string;
 }
 
 export interface LoginResponse {

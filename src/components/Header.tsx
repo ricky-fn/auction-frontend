@@ -1,19 +1,28 @@
+import axios from 'axios';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Dropdown, Container } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { useSelector } from 'react-redux';
 import { RootState } from '../store/types'
 import { FaUserCircle } from 'react-icons/fa';
 
 import logo from '../assets/logo.svg';
+import { logout } from '../store/userActions';
 
 const Header = () => {
   const isLoggedIn = useAuth();
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
   const user = useSelector((state: RootState) => state.user);
 
+  const { logoutEndpoint } = useSelector((state: RootState) => state.endpoints);
   const handleLogout = () => {
-    // Perform logout action, e.g., send API request
-    // ...
+    // Make API request to logoutEndpoint
+    axios.post(logoutEndpoint).then(() => {
+      dispatch(logout());
+      navigate('/')
+    });
   };
 
   return (
