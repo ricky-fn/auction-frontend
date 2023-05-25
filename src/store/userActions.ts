@@ -19,9 +19,9 @@ export const checkSession = () => {
     const rawUserData: string | null = localStorage.getItem('userData') ;
     const userData: UserData = rawUserData ? JSON.parse(rawUserData) : null;
     if (userData) {
-      const { validateToken } = getState().endpoints
+      const { validateTokenEndpoint } = getState().endpoints
       axios
-        .post(validateToken, { sessionId: userData.sessionId })
+        .post(validateTokenEndpoint, { sessionId: userData.sessionId })
         .then((response) => {
           const data: LoginResponse = response.data;
           dispatch(login(data));

@@ -1,20 +1,30 @@
-import React, { useState } from 'react';
+import axios from 'axios';
+import React, { useState, useEffect } from 'react';
+import { useAuth } from './hooks/useAuth';
+import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 
+import { RootState, depositResponse } from './store/types';
 import Header from './components/Header';
+import { deposit } from './store/userActions';
 
 const Deposit = () => {
+  const isLoggedIn = useAuth();
+
   const [amount, setAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   const handleCancel = () => {
     navigate('/');
   };
 
-  const handleSubmit = (e) => {
+  const { depositEndpoint } = useSelector((state: RootState) => state.endpoints);
+
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     // Validation
@@ -23,13 +33,22 @@ const Deposit = () => {
       return;
     }
 
-    // Proceed with deposit logic (e.g., API request)
-    console.log(amount)
+    // Make API request to depositEndpoint
+    axios.post(depositEndpoint, { amount }).then((response) => {
+      const depositData: depositResponse = response.data;
+      dispatch(deposit(depositData.amount));
+    });
 
     // Clear form and error message
     setAmount('');
     setErrorMessage('');
   };
+
+  useEffect(() => {
+    if (!isLoggedIn) {
+      navigate('/login');
+    }
+  }, [isLoggedIn])
 
   return (
     <>
@@ -45,7 +64,7 @@ const Deposit = () => {
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
               onBlur={() => {
-                if (!amount || isNaN(amount) || parseInt(amount) <= 0) {
+                if (!amount || isNaN(parseFloat(amount)) || parseInt(amount) <= 0) {
                   setErrorMessage('Please enter a valid amount.');
                 } else {
                   setErrorMessage('');

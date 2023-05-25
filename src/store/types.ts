@@ -22,10 +22,17 @@ export interface EndpointsState {
   getItemsEndpoint: string;
   registerEndpoint: string;
   validateTokenEndpoint: string;
+  depositEndpoint: string;
+  itemCreationEndpoint: string;
 }
 
 export interface LoginResponse {
   user: UserData;
+  timestamp: number;
+}
+
+export interface depositResponse {
+  amount: number;
   timestamp: number;
 }
 

@@ -1,10 +1,11 @@
-import { UserData, LoginResponse } from "./types";
+import axios from "axios";
+import { UserData, LoginResponse, depositResponse } from "./types";
 
 const initialState: UserData = {};
 
 interface Action {
   type: string;
-  payload: LoginResponse;
+  payload: LoginResponse | depositResponse;
 }
 
 export const userReducer = (state = initialState, action: Action) => {
@@ -12,6 +13,9 @@ export const userReducer = (state = initialState, action: Action) => {
     case 'LOGIN':
       // Store session token in local storage
       localStorage.setItem('userData', JSON.stringify(action.payload.user));
+
+      // Update the authorization header when a user logs in
+      axios.defaults.headers.common['Authorization'] = `Bearer ${action.payload.user.sessionId}`;
 
       return {
         ...state,
@@ -21,6 +25,9 @@ export const userReducer = (state = initialState, action: Action) => {
       // Remove session token from local storage
       localStorage.removeItem('userData');
 
+      // Remove the authorization header when a user logs out
+      delete axios.defaults.headers.common['Authorization'];
+
       return {
         ...state,
         userId: null,
@@ -28,7 +35,7 @@ export const userReducer = (state = initialState, action: Action) => {
     case 'DEPOSIT':
       return {
         ...state,
-        balance: state.balance + action.payload.amount,
+        balance: action.payload.amount,
       };
     default:
       return state;
