@@ -1,6 +1,8 @@
+import axios from 'axios';
 import React, { useState } from 'react';
-import { Modal, Button, Form } from 'react-bootstrap';
-import { ItemData } from '../store/types';
+import { Modal, Button, Form, Alert } from 'react-bootstrap';
+import { useSelector, useDispatch } from 'react-redux';
+import { ItemData, RootState } from '../store/types';
 
 interface BidItemDialogProps {
   item: ItemData;
@@ -11,30 +13,38 @@ interface BidItemDialogProps {
 const BidItemDialog: React.FC<BidItemDialogProps> = ({ item, show, onCancel }) => {
   const [amount, setAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const { balance } = useSelector((state: RootState) => state.user);
 
+  const { bidItemEndpoint } = useSelector((state: RootState) => state.endpoints);
   const handleSubmit = () => {
-    // Validation
     if (!amount || isNaN(parseInt(amount)) || parseInt(amount) <= item.highestBid) {
       setErrorMessage(`Please enter an amount greater than ${item.highestBid}.`);
       return;
     }
 
-    // Proceed with bid logic (e.g., API request)
+    if (Number(amount) > (balance || 0)) {
+      setErrorMessage(`Insufficient fund`);
+      return;
+    }
+
+    // Make API request to depositEndpoint
+    axios.post(bidItemEndpoint, { bidAmount: amount, itemId: item.itemId }).then(() => {
+      console.log('abc')
+    });
+
 
     // Clear form and error message
     setAmount('');
     setErrorMessage('');
-
-    // Dismiss the dialog
   };
 
   return (
-    <Modal show={true} onHide={onCancel}>
+    <Modal show={show} onHide={onCancel}>
       <Modal.Header closeButton>
         <Modal.Title>Bid for {item.name}</Modal.Title>
       </Modal.Header>
       <Modal.Body>
-        {errorMessage && <div className="error">{errorMessage}</div>}
+        {errorMessage && <Alert variant="danger">{errorMessage}</Alert>}
         <Form onSubmit={handleSubmit}>
           <Form.Group controlId="amount">
             <Form.Label>Amount</Form.Label>

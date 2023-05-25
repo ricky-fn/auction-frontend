@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Container, Table, Button } from 'react-bootstrap';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './hooks/useAuth';
 import axios from 'axios';
 import './App.css'
 
@@ -12,6 +14,8 @@ import { setItems } from './store/itemsActions';
 
 const App: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState(''); // State to track the status filter
+  const isLoggedIn = useAuth();
+  const navigate = useNavigate();
 
   const items = useSelector((state: RootState) => state.items); // Get the items from the Redux store
 
@@ -37,6 +41,9 @@ const App: React.FC = () => {
   };
 
   const handleBid = (item: ItemData) => {
+    if (!isLoggedIn) {
+      return navigate("/login")
+    }
     setSelectedItem(item);
     setShowDialog(true);
   };
@@ -105,7 +112,7 @@ const App: React.FC = () => {
                 <td>{item.highestBid}</td>
                 <td>{formatDuration(item)}</td>
                 <td>
-                  <Button onClick={() => handleBid(item)}>Bid</Button>
+                  <Button disabled={item.expirationTime * 1000 > Date.now()} onClick={() => handleBid(item)}>Bid</Button>
                 </td>
               </tr>
             ))}
