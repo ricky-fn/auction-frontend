@@ -36,7 +36,7 @@ const App: React.FC = () => {
     setShowDialog(false);
   };
 
-  const getItemsEndpoint = useSelector((state: RootState) => state.endpoints.getItems);
+  const getItemsEndpoint = useSelector((state: RootState) => state.endpoints.getItemsEndpoint);
 
   useEffect(() => {
     // Make API request to loginEndpoint
@@ -76,7 +76,7 @@ const App: React.FC = () => {
                 <td>{item.highestBid}</td>
                 <td>{item.startTime}</td>
                 <td>
-                  <Button onClick={() => handleBid(item.itemId)}>Bid</Button>
+                  <Button onClick={() => handleBid(item)}>Bid</Button>
                 </td>
               </tr>
             ))}

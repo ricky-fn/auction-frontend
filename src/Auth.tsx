@@ -67,7 +67,7 @@ const AuthForm: React.FC = () => {
     }
   };
 
-  const loginEndpoint = useSelector((state: RootState) => state.endpoints.login);
+  const { loginEndpoint, registerEndpoint } = useSelector((state: RootState) => state.endpoints);
 
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -78,7 +78,11 @@ const AuthForm: React.FC = () => {
     setEmailError(emailError);
     setPasswordError(passwordError);
 
-    if (!emailError && !passwordError) {
+    if (emailError || passwordError) {
+      // handle errors
+    }
+
+    if (isLoginView) {
       // Make API request to loginEndpoint
       axios.post(loginEndpoint, { username: email, password }).then((response) => {
         // Assuming the response includes user data
@@ -87,6 +91,11 @@ const AuthForm: React.FC = () => {
         // Dispatch the login action to update the Redux state
         dispatch(login(userData));
         navigate('/')
+      });
+    } else {
+      // Make API request to registerEndpoint
+      axios.post(registerEndpoint, { username: email, password }).then(() => {
+        toggleView()
       });
     }
   };

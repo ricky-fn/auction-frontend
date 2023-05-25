@@ -18,9 +18,10 @@ export interface UserData {
 }
 
 export interface EndpointsState {
-  login: string;
-  getItems: string;
-  validateToken: string;
+  loginEndpoint: string;
+  getItemsEndpoint: string;
+  registerEndpoint: string;
+  validateTokenEndpoint: string;
 }
 
 export interface LoginResponse {

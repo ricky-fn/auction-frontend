@@ -1,9 +1,10 @@
 import { EndpointsState } from "./types";
 
 const initialState: EndpointsState = {
-  login: ' https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/login',
-  getItems: 'https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/get-items',
-  validateToken: 'https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/session'
+  loginEndpoint: ' https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/login',
+  registerEndpoint: ' https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/register',
+  getItemsEndpoint: 'https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/get-items',
+  validateTokenEndpoint: 'https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/session'
 };
 
 type EndpointsAction = {
