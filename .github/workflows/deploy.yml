@@ -1,0 +1,35 @@
+name: Deploy to AWS
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18.16.0
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Build
+        run: npm run build
+
+      - name: Deploy to S3
+        uses: aws-actions/aws-cli@v2
+        with:
+          args: s3 sync dist s3://auction-system-frontend
+
+      - name: Invalidate CloudFront cache
+        uses: aws-actions/aws-cli@v2
+        with:
+          args: cloudfront create-invalidation --distribution-id E2T6BYMC4381YF --paths "/*"
