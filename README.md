@@ -4,6 +4,8 @@ This is the frontend project for the [Auction System](https://github.com/ricky-f
 
 # Demo
 
+![Screenshot](https://github.com/ricky-fn/auction-frontend/blob/main/public/screenshot.png?raw=true)
+
 Check out the live demo of the application: [Auction System Demo](https://d75exnbwk18vb.cloudfront.net)
 
 ## Technologies Used
