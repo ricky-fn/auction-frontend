@@ -93,6 +93,11 @@ const AuthForm: React.FC = () => {
         // Dispatch the login action to update the Redux state
         dispatch(login(userData));
         navigate('/')
+      }).catch(() => {
+        dispatch(showToast({
+          type: 'danger',
+          message: 'Invalid Credentials!'
+        }))
       }).finally(() => {
         dispatch(setLoading(false))
       });
@@ -106,6 +111,11 @@ const AuthForm: React.FC = () => {
         }))
         setEmail('')
         setPassword('')
+      }).catch(() => {
+        dispatch(showToast({
+          type: 'danger',
+          message: 'Oops Something Went Wrong!'
+        }))
       }).finally(() => {
         dispatch(setLoading(false))
       });
