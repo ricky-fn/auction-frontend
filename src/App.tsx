@@ -116,7 +116,7 @@ const App: React.FC = () => {
             {filteredItems.map((item) => (
               <tr key={item.itemId}>
                 <td>{item.name}</td>
-                <td>{item.highestBid}</td>
+                <td>{item.highestBid}$</td>
                 <td>{formatDuration(item)}</td>
                 <td>
                   <Button disabled={item.expirationTime * 1000 < Date.now()} onClick={() => handleBid(item)}>Bid</Button>

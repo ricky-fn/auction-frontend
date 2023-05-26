@@ -104,6 +104,10 @@ const ItemCreation: React.FC = () => {
             type: 'success',
             message: 'You Have Created An Item'
           }))
+          navigate('/');
+          setItemName('');
+          setStartPrice('');
+          setTimeWindow('');
         }).finally(() => {
           dispatch(setLoading(false))
         });
