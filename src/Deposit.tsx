@@ -8,6 +8,7 @@ import { Form, Button, Container, Alert } from 'react-bootstrap';
 import { RootState, depositResponse } from './store/types';
 import Header from './components/Header';
 import { deposit } from './store/userActions';
+import { setLoading, showToast } from './store/appActions';
 
 const Deposit = () => {
   const isLoggedIn = useAuth();
@@ -27,17 +28,29 @@ const Deposit = () => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    // Validation
     if (!amount || isNaN(parseInt(amount)) || parseInt(amount) <= 0) {
       setErrorMessage('Please enter a valid amount.');
       return;
     }
 
+    dispatch(setLoading(true))
     // Make API request to depositEndpoint
     axios.post(depositEndpoint, { amount }).then((response) => {
       const depositData: depositResponse = response.data;
       dispatch(deposit(depositData.amount));
-    });
+      dispatch(showToast({
+        type: 'success',
+        message: 'Deposit Request Done!'
+      }))
+    }).catch((error) => {
+      console.log(error)
+      dispatch(showToast({
+        type: 'danger',
+        message: 'Oops Something Wrong...'
+      }))
+    }).finally(() => {
+      dispatch(setLoading(false))
+    })
 
     // Clear form and error message
     setAmount('');
@@ -76,7 +89,7 @@ const Deposit = () => {
             <Button variant="secondary" onClick={handleCancel} className="mx-2">
               Cancel
             </Button>
-            <Button type="submit">Create</Button>
+            <Button type="submit">Deposit</Button>
           </div>
         </Form>
       </Container>

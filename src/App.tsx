@@ -26,9 +26,9 @@ const App: React.FC = () => {
   const filteredItems = items.filter((item) => {
     if (statusFilter === '') {
       return true
-    } else if (statusFilter === 'ongoing' && item.expirationTime * 1000 < Date.now()) {
+    } else if (statusFilter === 'ongoing' && item.expirationTime * 1000 > Date.now()) {
       return true
-    } else if (statusFilter === 'complete' && item.expirationTime * 1000 > Date.now()) {
+    } else if (statusFilter === 'complete' && item.expirationTime * 1000 < Date.now()) {
       return true
     }
     return false
@@ -89,10 +89,17 @@ const App: React.FC = () => {
       <Header />
       <Container className="max-width-container">
         <div className="my-5">
-          <Button variant={statusFilter === 'ongoing' ? 'primary' : 'outline-primary'} className="mx-2" onClick={() => handleStatusFilter('ongoing')}>
+          <Button
+            variant={statusFilter === 'ongoing' ? 'primary' : 'outline-primary'}
+            className="me-3"
+            onClick={() => handleStatusFilter(statusFilter === 'ongoing' ? '' : 'ongoing')}
+          >
             Ongoing
           </Button>
-          <Button variant={statusFilter === 'complete' ? 'primary' : 'outline-primary'} onClick={() => handleStatusFilter('complete')}>
+          <Button
+            variant={statusFilter === 'complete' ? 'primary' : 'outline-primary'}
+            onClick={() => handleStatusFilter(statusFilter === 'complete' ? '' : 'complete')}
+          >
             Complete
           </Button>
         </div>
@@ -112,7 +119,7 @@ const App: React.FC = () => {
                 <td>{item.highestBid}</td>
                 <td>{formatDuration(item)}</td>
                 <td>
-                  <Button disabled={item.expirationTime * 1000 > Date.now()} onClick={() => handleBid(item)}>Bid</Button>
+                  <Button disabled={item.expirationTime * 1000 < Date.now()} onClick={() => handleBid(item)}>Bid</Button>
                 </td>
               </tr>
             ))}

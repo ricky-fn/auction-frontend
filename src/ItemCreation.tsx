@@ -1,11 +1,12 @@
 import axios from 'axios';
 import React, { useState } from 'react';
-import { Form, Button, Alert } from 'react-bootstrap';
+import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/Header';
 import { RootState, itemCreationResponse } from './store/types';
 import { addItem } from './store/itemsActions';
+import { setLoading, showToast } from './store/appActions';
 
 const ItemCreation: React.FC = () => {
   const [itemName, setItemName] = useState('');
@@ -94,10 +95,17 @@ const ItemCreation: React.FC = () => {
         const hours = parseInt(match[1]);
         const seconds = hours * 3600;
 
+        dispatch(setLoading(true))
         // Make API request to registerEndpoint
         axios.post(itemCreationEndpoint, { name: itemName, startingPrice: startPrice, timeWindow: seconds }).then((response) => {
           const itemData: itemCreationResponse = response.data;
           dispatch(addItem(itemData.item))
+          dispatch(showToast({
+            type: 'success',
+            message: 'You Have Created An Item'
+          }))
+        }).finally(() => {
+          dispatch(setLoading(false))
         });
       }
     }
@@ -111,52 +119,50 @@ const ItemCreation: React.FC = () => {
   return (
     <>
       <Header />
-      <div className="form-container">
-        <div className="form-wrapper">
-          <h2>Create Item</h2>
-          {itemNameError && <Alert variant="danger">{itemNameError}</Alert>}
-          {startPriceError && <Alert variant="danger">{startPriceError}</Alert>}
-          {timeWindowError && <Alert variant="danger">{timeWindowError}</Alert>}
-          <Form onSubmit={handleSubmit}>
-            <Form.Group controlId="itemName">
-              <Form.Label>Item Name</Form.Label>
-              <Form.Control
-                type="text"
-                name="itemName"
-                value={itemName}
-                onChange={(e) => setItemName(e.target.value)}
-                onBlur={handleBlur}
-              />
-            </Form.Group>
-            <Form.Group controlId="startPrice" className="mt-2">
-              <Form.Label>Start Price</Form.Label>
-              <Form.Control
-                type="number"
-                name="startPrice"
-                value={startPrice}
-                onChange={(e) => setStartPrice(e.target.value)}
-                onBlur={handleBlur}
-              />
-            </Form.Group>
-            <Form.Group controlId="timeWindow" className="mt-2">
-              <Form.Label>Time Window (e.g., 1h)</Form.Label>
-              <Form.Control
-                type="text"
-                name="timeWindow"
-                value={timeWindow}
-                onChange={(e) => setTimeWindow(e.target.value)}
-                onBlur={handleBlur}
-              />
-            </Form.Group>
-            <div className="d-flex justify-content-end mt-3">
-              <Button variant="secondary" onClick={handleCancel} className="mx-2">
-                Cancel
-              </Button>
-              <Button type="submit">Create</Button>
-            </div>
-          </Form>
-        </div>
-      </div>
+      <Container>
+        <h2 className="my-5">Create Item</h2>
+        {itemNameError && <Alert variant="danger">{itemNameError}</Alert>}
+        {startPriceError && <Alert variant="danger">{startPriceError}</Alert>}
+        {timeWindowError && <Alert variant="danger">{timeWindowError}</Alert>}
+        <Form onSubmit={handleSubmit}>
+          <Form.Group controlId="itemName">
+            <Form.Label>Item Name</Form.Label>
+            <Form.Control
+              type="text"
+              name="itemName"
+              value={itemName}
+              onChange={(e) => setItemName(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </Form.Group>
+          <Form.Group controlId="startPrice" className="mt-2">
+            <Form.Label>Start Price</Form.Label>
+            <Form.Control
+              type="number"
+              name="startPrice"
+              value={startPrice}
+              onChange={(e) => setStartPrice(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </Form.Group>
+          <Form.Group controlId="timeWindow" className="mt-2">
+            <Form.Label>Time Window (e.g., 1h)</Form.Label>
+            <Form.Control
+              type="text"
+              name="timeWindow"
+              value={timeWindow}
+              onChange={(e) => setTimeWindow(e.target.value)}
+              onBlur={handleBlur}
+            />
+          </Form.Group>
+          <div className="d-flex justify-content-end mt-3">
+            <Button variant="secondary" onClick={handleCancel} className="mx-2">
+              Cancel
+            </Button>
+            <Button type="submit">Create</Button>
+          </div>
+        </Form>
+      </Container>
     </>
   );
 };

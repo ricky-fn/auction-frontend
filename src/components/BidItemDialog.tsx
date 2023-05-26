@@ -1,8 +1,10 @@
 import axios from 'axios';
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { ItemData, RootState } from '../store/types';
+import { useDispatch, useSelector } from 'react-redux';
+import { ItemData, RootState, bidItemResponse } from '../store/types';
+import { setLoading, showToast } from '../store/appActions';
+import { bidItem } from '../store/itemsActions';
 
 interface BidItemDialogProps {
   item: ItemData;
@@ -14,7 +16,7 @@ const BidItemDialog: React.FC<BidItemDialogProps> = ({ item, show, onCancel }) =
   const [amount, setAmount] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
   const { balance } = useSelector((state: RootState) => state.user);
-
+  const dispatch = useDispatch()
   const { bidItemEndpoint } = useSelector((state: RootState) => state.endpoints);
   const handleSubmit = () => {
     if (!amount || isNaN(parseInt(amount)) || parseInt(amount) <= item.highestBid) {
@@ -28,10 +30,18 @@ const BidItemDialog: React.FC<BidItemDialogProps> = ({ item, show, onCancel }) =
     }
 
     // Make API request to depositEndpoint
-    axios.post(bidItemEndpoint, { bidAmount: amount, itemId: item.itemId }).then(() => {
-      console.log('abc')
+    dispatch(setLoading(true))
+    onCancel()
+    axios.post(bidItemEndpoint, { bidAmount: amount, itemId: item.itemId }).then((response) => {
+      const data: bidItemResponse = response.data;
+      dispatch(bidItem(data.item))
+      dispatch(showToast({
+        type: 'success',
+        message: 'You have placed a bid!'
+      }))
+    }).finally(() => {
+      dispatch(setLoading(false))
     });
-
 
     // Clear form and error message
     setAmount('');
@@ -52,13 +62,6 @@ const BidItemDialog: React.FC<BidItemDialogProps> = ({ item, show, onCancel }) =
               type="number"
               value={amount}
               onChange={(e) => setAmount(e.target.value)}
-              onBlur={() => {
-                if (!amount || isNaN(amount) || parseInt(amount) <= item.highestBid) {
-                  setErrorMessage(`Please enter an amount greater than ${item.highestBid}.`);
-                } else {
-                  setErrorMessage('');
-                }
-              }}
             />
           </Form.Group>
         </Form>

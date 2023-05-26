@@ -11,9 +11,13 @@ import App from './App.tsx'
 import AuthForm from './Auth.tsx';
 import ItemCreation from './ItemCreation.tsx';
 import Deposit from './Deposit.tsx';
+import Loading from './components/Loading.tsx';
+import ToastMessage from './components/ToastMessage.tsx';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <Provider store={store}>
+    <Loading />
+    <ToastMessage />
     <Router>
       <Routes>
         <Route path="/login" element={<AuthForm />} />

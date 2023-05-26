@@ -9,6 +9,7 @@ import { FaUserCircle } from 'react-icons/fa';
 
 import logo from '../assets/logo.svg';
 import { logout } from '../store/userActions';
+import { setLoading } from '../store/appActions';
 
 const Header = () => {
   const isLoggedIn = useAuth();
@@ -18,10 +19,13 @@ const Header = () => {
 
   const { logoutEndpoint } = useSelector((state: RootState) => state.endpoints);
   const handleLogout = () => {
+    dispatch(setLoading(true))
     // Make API request to logoutEndpoint
     axios.post(logoutEndpoint).then(() => {
       dispatch(logout());
       navigate('/')
+    }).finally(() => {
+      dispatch(setLoading(false))
     });
   };
 

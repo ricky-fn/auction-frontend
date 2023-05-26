@@ -4,8 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './store/userActions';
 import { Form, Button, Alert } from 'react-bootstrap';
-
 import { LoginResponse, RootState } from './store/types';
+import { setLoading, showToast } from './store/appActions';
 
 const AuthForm: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -82,6 +82,7 @@ const AuthForm: React.FC = () => {
       // handle errors
     }
 
+    dispatch(setLoading(true))
     if (isLoginView) {
       // Make API request to loginEndpoint
       axios.post(loginEndpoint, { username: email, password }).then((response) => {
@@ -91,11 +92,21 @@ const AuthForm: React.FC = () => {
         // Dispatch the login action to update the Redux state
         dispatch(login(userData));
         navigate('/')
+      }).finally(() => {
+        dispatch(setLoading(false))
       });
     } else {
       // Make API request to registerEndpoint
       axios.post(registerEndpoint, { username: email, password }).then(() => {
         toggleView()
+        dispatch(showToast({
+          type: 'success',
+          message: 'You Have Successfully Registered An Account!'
+        }))
+        setEmail('')
+        setPassword('')
+      }).finally(() => {
+        dispatch(setLoading(false))
       });
     }
   };

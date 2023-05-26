@@ -1,6 +1,7 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
 import { UserData, LoginResponse } from './types';
+import { setLoading } from './appActions';
 
 export const login = (userData: LoginResponse) => {
   return { type: 'LOGIN', payload: userData };
@@ -20,6 +21,7 @@ export const checkSession = () => {
     const userData: UserData = rawUserData ? JSON.parse(rawUserData) : null;
     if (userData) {
       const { validateTokenEndpoint } = getState().endpoints
+      dispatch(setLoading(true))
       axios
         .post(validateTokenEndpoint, { sessionId: userData.sessionId })
         .then((response) => {
@@ -28,6 +30,8 @@ export const checkSession = () => {
         })
         .catch(() => {
           dispatch(logout());
+        }).finally(() => {
+          dispatch(setLoading(false))
         });
     } else {
       dispatch(logout());

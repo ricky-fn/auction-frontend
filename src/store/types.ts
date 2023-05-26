@@ -1,3 +1,5 @@
+import { Variant } from "react-bootstrap/esm/types";
+
 export interface ItemData {
   itemId: string;
   name: string;
@@ -14,6 +16,13 @@ export interface UserData {
   balance?: number;
   createdDate?: number;
   sessionId?: string;
+}
+
+export interface appData {
+  isLoading: boolean,
+  toastType: Variant,
+  toastMessage: null | string,
+  showToast: boolean
 }
 
 export interface EndpointsState {
@@ -42,8 +51,14 @@ export interface itemCreationResponse {
   timestamp: number;
 }
 
+export interface bidItemResponse {
+  item: ItemData;
+  timestamp: number;
+}
+
 export interface RootState {
   user: UserData;
   items: ItemData[];
-  endpoints: EndpointsState
+  endpoints: EndpointsState;
+  app: appData
 }

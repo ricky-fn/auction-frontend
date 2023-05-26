@@ -8,6 +8,6 @@ export const setItems = (items: ItemData[]) => {
   return { type: 'SET_ITEMS', payload: items };
 };
 
-export const bidItem = (itemName: string, bidAmount: number, bidderId: string) => {
-  return { type: 'BID_ITEM', payload: { itemName, bidAmount, bidderId } };
+export const bidItem = (item: ItemData) => {
+  return { type: 'BID_ITEM', payload: item };
 };

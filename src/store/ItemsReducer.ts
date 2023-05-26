@@ -16,16 +16,7 @@ export const itemsReducer = (state = initialState, action: Action) => {
     case 'SET_ITEMS':
       return action.payload;
     case 'BID_ITEM':
-      const { ItemId, highestBid, highestBidder } = action.payload;
-      return state.map((item) =>
-        item.itemId === ItemId
-          ? {
-              ...item,
-              highestBid,
-              highestBidder
-            }
-          : item
-      )
+      return state.map((item) => item.itemId === action.payload.itemId ? action.payload : item)
     default:
       return state;
   }

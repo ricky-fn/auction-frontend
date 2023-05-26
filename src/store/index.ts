@@ -1,13 +1,14 @@
 import { legacy_createStore as createStore, applyMiddleware, combineReducers } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import { userReducer } from './userReducer';
+import { appReducer } from './appReducer';
 import { itemsReducer } from './ItemsReducer';
 import { checkSession } from './userActions';
 import { endpointsReducer } from './endpointsReducer';
 import thunkMiddleware from 'redux-thunk';
 
 const rootReducer = combineReducers({
-  // Add other reducers here
+  app: appReducer,
   user: userReducer,
   items: itemsReducer,
   endpoints: endpointsReducer
