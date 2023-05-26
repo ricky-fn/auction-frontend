@@ -1,19 +1,15 @@
 import axios from "axios";
 import { UserData, LoginResponse, DepositResponse } from "./types";
+import { UserAction, UserActionTypes } from "./userActions";
 
 const initialState: UserData = {};
 
-interface Action {
-  type: string;
-  payload: LoginResponse | DepositResponse;
-}
-
-export const userReducer = (state = initialState, action: Action) => {
+export const userReducer = (state = initialState, action: UserAction) => {
   const loginPayload = action.payload as LoginResponse;
   const depositPayload = action.payload as DepositResponse;
   
   switch (action.type) {
-    case 'LOGIN':
+    case UserActionTypes.LOGIN:
       // Store session token in local storage
       localStorage.setItem('userData', JSON.stringify(loginPayload.user));
 

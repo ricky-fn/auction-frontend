@@ -1,21 +1,28 @@
-import { Dispatch } from 'redux';
+import { Action, Dispatch } from 'redux';
 import axios from 'axios';
-import { UserData, LoginResponse, RootState } from './types';
+import { UserData, LoginResponse, RootState, DepositResponse } from './types';
 import { setLoading } from './appActions';
+import { ThunkAction } from 'redux-thunk';
+
+export enum UserActionTypes {
+  LOGIN = 'LOGIN',
+  LOGOUT = 'LOGOUT',
+  DEPOSIT = 'DEPOSIT',
+}
 
 export const login = (userData: LoginResponse) => {
-  return { type: 'LOGIN', payload: userData };
+  return { type: UserActionTypes.LOGIN, payload: userData };
 };
 
 export const logout = () => {
-  return { type: 'LOGOUT' };
+  return { type: UserActionTypes.LOGOUT };
 };
 
 export const deposit = (amount: number) => {
-  return { type: 'DEPOSIT', payload: { amount } };
+  return { type: UserActionTypes.DEPOSIT, payload: { amount } };
 };
 
-export const checkSession = () => {
+export const checkSession = (): ThunkAction<void, RootState, unknown, Action> => {
   return (dispatch: Dispatch, getState: () => RootState) => {
     const rawUserData: string | null = localStorage.getItem('userData') ;
     const userData: UserData = rawUserData ? JSON.parse(rawUserData) : null;
@@ -38,3 +45,20 @@ export const checkSession = () => {
     }
   };
 };
+
+interface LoginAction {
+  type: UserActionTypes.LOGIN;
+  payload: LoginResponse;
+}
+
+interface DepositAction {
+  type: UserActionTypes.DEPOSIT;
+  payload: DepositResponse;
+}
+
+interface LogoutAction {
+  type: UserActionTypes.LOGOUT;
+  payload: null;
+}
+
+export type UserAction = LoginAction | LogoutAction | DepositAction;

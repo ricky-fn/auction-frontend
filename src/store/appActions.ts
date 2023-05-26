@@ -1,16 +1,26 @@
 import { ToastData } from "./types";
 
-export const setLoading = (isLoading:boolean) => ({
-  type: 'SET_LOADING',
+export enum AppActionTypes {
+  SET_LOADING = 'SET_LOADING',
+  SHOW_TOAST = 'SHOW_TOAST',
+  HIDE_TOAST = 'HIDE_TOAST',
+}
+
+export const setLoading = (isLoading: boolean) => ({
+  type: AppActionTypes.SET_LOADING,
   payload: isLoading,
 });
 
 export const showToast = (toast: ToastData) => ({
-  type: 'SHOW_TOAST',
+  type: AppActionTypes.SHOW_TOAST,
   payload: toast,
 })
 
-
 export const hideToast = () => ({
-  type: 'HIDE_TOAST',
+  type: AppActionTypes.HIDE_TOAST,
 })
+
+export type AppAction =
+  | { type: AppActionTypes.SET_LOADING; payload: boolean }
+  | { type: AppActionTypes.SHOW_TOAST; payload: ToastData }
+  | { type: AppActionTypes.HIDE_TOAST };

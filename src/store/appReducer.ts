@@ -1,4 +1,5 @@
-import { AppData, ToastData } from "./types";
+import { AppAction, AppActionTypes } from './appActions';
+import { AppData } from "./types";
 
 const initialState: AppData = {
   isLoading: false,
@@ -7,26 +8,21 @@ const initialState: AppData = {
   showToast: false
 };
 
-type AppAction =
-  | { type: 'SET_LOADING'; payload: boolean }
-  | { type: 'SHOW_TOAST'; payload: ToastData }
-  | { type: 'HIDE_TOAST' };
-
 export const appReducer = (state = initialState, action: AppAction) => {
   switch (action.type) {
-    case 'SET_LOADING':
+    case AppActionTypes.SET_LOADING:
       return {
         ...state,
         isLoading: action.payload,
       };
-    case 'SHOW_TOAST':
+    case AppActionTypes.SHOW_TOAST:
       return {
         ...state,
         toastType: action.payload.type,
         toastMessage: action.payload.message,
         showToast: true
       }
-    case 'HIDE_TOAST':
+    case AppActionTypes.HIDE_TOAST:
       return {
         ...state,
         showToast: false
