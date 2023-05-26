@@ -1,4 +1,4 @@
-# Frontend Project Name
+# Auction System Front End
 
 This is the frontend project for the [Auction System](https://github.com/ricky-fn/auction-app) application. It provides the user interface and client-side functionality for the application.
 
