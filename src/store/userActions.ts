@@ -1,8 +1,10 @@
 import { Action, Dispatch } from 'redux';
 import axios from 'axios';
-import { UserData, LoginResponse, RootState, DepositResponse } from './types';
 import { setLoading } from './appActions';
 import { ThunkAction } from 'redux-thunk';
+import { DepositResponse, LoginResponse } from './endpointsReducer';
+import { RootState } from '.';
+import { UserData } from './userReducer';
 
 export enum UserActionTypes {
   LOGIN = 'LOGIN',

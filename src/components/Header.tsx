@@ -4,12 +4,12 @@ import { useNavigate } from 'react-router-dom';
 import { Navbar, Nav, Dropdown, Container } from 'react-bootstrap';
 import { Link, NavLink } from 'react-router-dom';
 import { useAuth } from '../hooks/useAuth';
-import { RootState } from '../store/types'
 import { FaUserCircle } from 'react-icons/fa';
 
 import logo from '../assets/logo.svg';
 import { logout } from '../store/userActions';
 import { setLoading } from '../store/appActions';
+import { RootState } from '../store';
 
 const Header = () => {
   const isLoggedIn = useAuth();

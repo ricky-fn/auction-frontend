@@ -9,8 +9,9 @@ import './App.css'
 import Header from './components/Header'
 import BidItemDialog from './components/BidItemDialog';
 
-import { ItemData, RootState } from './store/types';
 import { setItems } from './store/itemsActions';
+import { RootState } from './store';
+import { ItemData } from './store/ItemsReducer';
 
 const App: React.FC = () => {
   const [statusFilter, setStatusFilter] = useState(''); // State to track the status filter

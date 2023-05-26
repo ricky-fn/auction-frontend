@@ -4,9 +4,10 @@ import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/Header';
-import { RootState, ItemCreationResponse } from './store/types';
 import { addItem } from './store/itemsActions';
 import { setLoading, showToast } from './store/appActions';
+import { RootState } from './store';
+import { ItemCreationResponse } from './store/endpointsReducer';
 
 const ItemCreation: React.FC = () => {
   const [itemName, setItemName] = useState('');

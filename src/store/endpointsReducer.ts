@@ -1,4 +1,36 @@
-import { EndpointsState } from "./types";
+import { ItemData } from "./ItemsReducer";
+import { UserData } from "./userReducer";
+
+export interface LoginResponse {
+  user: UserData;
+  timestamp: number;
+}
+
+export interface DepositResponse {
+  amount: number;
+  timestamp: number;
+}
+
+export interface ItemCreationResponse {
+  item: ItemData;
+  timestamp: number;
+}
+
+export interface BidItemResponse {
+  item: ItemData;
+  timestamp: number;
+}
+
+export interface EndpointsState {
+  loginEndpoint: string;
+  getItemsEndpoint: string;
+  registerEndpoint: string;
+  validateTokenEndpoint: string;
+  depositEndpoint: string;
+  itemCreationEndpoint: string;
+  bidItemEndpoint: string;
+  logoutEndpoint: string;
+}
 
 const initialState: EndpointsState = {
   loginEndpoint: ' https://q6y7yqelab.execute-api.us-east-1.amazonaws.com/Prod/login',

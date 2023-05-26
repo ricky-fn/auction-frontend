@@ -1,4 +1,4 @@
-import { ItemData } from "./types";
+import { ItemData } from "./ItemsReducer";
 
 export enum ItemsActionTypes {
   ADD_ITEM = 'ADD_ITEM',

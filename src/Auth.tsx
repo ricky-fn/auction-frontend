@@ -4,8 +4,9 @@ import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from './store/userActions';
 import { Form, Button, Alert } from 'react-bootstrap';
-import { LoginResponse, RootState } from './store/types';
 import { setLoading, showToast } from './store/appActions';
+import { RootState } from './store';
+import { LoginResponse } from './store/endpointsReducer';
 
 const AuthForm: React.FC = () => {
   const [email, setEmail] = useState('');

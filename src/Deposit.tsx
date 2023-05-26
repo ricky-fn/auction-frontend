@@ -5,10 +5,11 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 
-import { RootState, DepositResponse } from './store/types';
 import Header from './components/Header';
 import { deposit } from './store/userActions';
 import { setLoading, showToast } from './store/appActions';
+import { DepositResponse } from './store/endpointsReducer';
+import { RootState } from './store';
 
 const Deposit = () => {
   const isLoggedIn = useAuth();

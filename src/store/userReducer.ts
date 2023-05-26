@@ -1,6 +1,13 @@
 import axios from "axios";
-import { UserData, LoginResponse, DepositResponse } from "./types";
 import { UserAction, UserActionTypes } from "./userActions";
+import { DepositResponse, LoginResponse } from "./endpointsReducer";
+
+export interface UserData {
+  userId?: string | null;
+  balance?: number;
+  createdDate?: number;
+  sessionId?: string;
+}
 
 const initialState: UserData = {};
 

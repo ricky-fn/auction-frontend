@@ -1,12 +1,18 @@
 import { legacy_createStore as createStore, applyMiddleware, combineReducers, Store, AnyAction } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
-import { userReducer } from './userReducer';
-import { appReducer } from './appReducer';
-import { itemsReducer } from './ItemsReducer';
+import { UserData, userReducer } from './userReducer';
+import { AppData, appReducer } from './appReducer';
+import { ItemData, itemsReducer } from './ItemsReducer';
 import { checkSession } from './userActions';
-import { endpointsReducer } from './endpointsReducer';
+import { EndpointsState, endpointsReducer } from './endpointsReducer';
 import thunkMiddleware, { ThunkDispatch } from 'redux-thunk';
-import { RootState } from './types';
+
+export interface RootState {
+  user: UserData;
+  items: ItemData[];
+  endpoints: EndpointsState;
+  app: AppData
+}
 
 const rootReducer = combineReducers({
   app: appReducer,

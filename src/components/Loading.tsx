@@ -1,6 +1,6 @@
 import { Spinner } from "react-bootstrap"
 import { useSelector } from "react-redux"
-import { RootState } from "../store/types"
+import { RootState } from "../store"
 
 const Loading = () => {
   const appState = useSelector((state: RootState) => state.app)

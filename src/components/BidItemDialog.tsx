@@ -2,9 +2,11 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { ItemData, RootState, BidItemResponse } from '../store/types';
 import { setLoading, showToast } from '../store/appActions';
 import { bidItem } from '../store/itemsActions';
+import { RootState } from '../store';
+import { ItemData } from '../store/ItemsReducer';
+import { BidItemResponse } from '../store/endpointsReducer';
 
 interface BidItemDialogProps {
   item: ItemData;

@@ -1,5 +1,15 @@
 import { ItemsAction, ItemsActionTypes } from "./itemsActions";
-import { ItemData } from "./types";
+
+export interface ItemData {
+  itemId: string;
+  name: string;
+  startingPrice: number;
+  timestamp: number,
+  expirationTime: number,
+  highestBid: number;
+  highestBidder: string;
+  createdBy: string;
+}
 
 type ItemsState = ItemData[];
 

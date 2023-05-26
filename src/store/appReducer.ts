@@ -1,5 +1,18 @@
+import { Variant } from 'react-bootstrap/esm/types';
 import { AppAction, AppActionTypes } from './appActions';
-import { AppData } from "./types";
+
+
+export interface AppData {
+  isLoading: boolean,
+  toastType: Variant,
+  toastMessage: null | string,
+  showToast: boolean
+}
+
+export interface ToastData {
+  type: Variant,
+  message: string,
+}
 
 const initialState: AppData = {
   isLoading: false,

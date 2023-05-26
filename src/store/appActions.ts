@@ -1,4 +1,4 @@
-import { ToastData } from "./types";
+import { ToastData } from "./appReducer";
 
 export enum AppActionTypes {
   SET_LOADING = 'SET_LOADING',
