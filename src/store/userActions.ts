@@ -1,6 +1,6 @@
 import { Dispatch } from 'redux';
 import axios from 'axios';
-import { UserData, LoginResponse } from './types';
+import { UserData, LoginResponse, RootState } from './types';
 import { setLoading } from './appActions';
 
 export const login = (userData: LoginResponse) => {
@@ -16,7 +16,7 @@ export const deposit = (amount: number) => {
 };
 
 export const checkSession = () => {
-  return (dispatch: Dispatch, getState) => {
+  return (dispatch: Dispatch, getState: () => RootState) => {
     const rawUserData: string | null = localStorage.getItem('userData') ;
     const userData: UserData = rawUserData ? JSON.parse(rawUserData) : null;
     if (userData) {

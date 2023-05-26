@@ -4,7 +4,7 @@ import { Form, Button, Alert, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import Header from './components/Header';
-import { RootState, itemCreationResponse } from './store/types';
+import { RootState, ItemCreationResponse } from './store/types';
 import { addItem } from './store/itemsActions';
 import { setLoading, showToast } from './store/appActions';
 
@@ -98,7 +98,7 @@ const ItemCreation: React.FC = () => {
         dispatch(setLoading(true))
         // Make API request to registerEndpoint
         axios.post(itemCreationEndpoint, { name: itemName, startingPrice: startPrice, timeWindow: seconds }).then((response) => {
-          const itemData: itemCreationResponse = response.data;
+          const itemData: ItemCreationResponse = response.data;
           dispatch(addItem(itemData.item))
           dispatch(showToast({
             type: 'success',

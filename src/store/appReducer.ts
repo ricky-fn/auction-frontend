@@ -1,13 +1,18 @@
-import { appData } from "./types";
+import { AppData, ToastData } from "./types";
 
-const initialState: appData = {
+const initialState: AppData = {
   isLoading: false,
   toastType: 'light',
   toastMessage: null,
   showToast: false
 };
 
-export const appReducer = (state = initialState, action) => {
+type AppAction =
+  | { type: 'SET_LOADING'; payload: boolean }
+  | { type: 'SHOW_TOAST'; payload: ToastData }
+  | { type: 'HIDE_TOAST' };
+
+export const appReducer = (state = initialState, action: AppAction) => {
   switch (action.type) {
     case 'SET_LOADING':
       return {

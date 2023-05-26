@@ -18,11 +18,16 @@ export interface UserData {
   sessionId?: string;
 }
 
-export interface appData {
+export interface AppData {
   isLoading: boolean,
   toastType: Variant,
   toastMessage: null | string,
   showToast: boolean
+}
+
+export interface ToastData {
+  type: Variant,
+  message: string,
 }
 
 export interface EndpointsState {
@@ -41,17 +46,17 @@ export interface LoginResponse {
   timestamp: number;
 }
 
-export interface depositResponse {
+export interface DepositResponse {
   amount: number;
   timestamp: number;
 }
 
-export interface itemCreationResponse {
+export interface ItemCreationResponse {
   item: ItemData;
   timestamp: number;
 }
 
-export interface bidItemResponse {
+export interface BidItemResponse {
   item: ItemData;
   timestamp: number;
 }
@@ -60,5 +65,5 @@ export interface RootState {
   user: UserData;
   items: ItemData[];
   endpoints: EndpointsState;
-  app: appData
+  app: AppData
 }

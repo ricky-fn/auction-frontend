@@ -5,7 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { Form, Button, Container, Alert } from 'react-bootstrap';
 
-import { RootState, depositResponse } from './store/types';
+import { RootState, DepositResponse } from './store/types';
 import Header from './components/Header';
 import { deposit } from './store/userActions';
 import { setLoading, showToast } from './store/appActions';
@@ -36,7 +36,7 @@ const Deposit = () => {
     dispatch(setLoading(true))
     // Make API request to depositEndpoint
     axios.post(depositEndpoint, { amount }).then((response) => {
-      const depositData: depositResponse = response.data;
+      const depositData: DepositResponse = response.data;
       dispatch(deposit(depositData.amount));
       dispatch(showToast({
         type: 'success',

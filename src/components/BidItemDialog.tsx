@@ -2,7 +2,7 @@ import axios from 'axios';
 import React, { useState } from 'react';
 import { Modal, Button, Form, Alert } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
-import { ItemData, RootState, bidItemResponse } from '../store/types';
+import { ItemData, RootState, BidItemResponse } from '../store/types';
 import { setLoading, showToast } from '../store/appActions';
 import { bidItem } from '../store/itemsActions';
 
@@ -33,7 +33,7 @@ const BidItemDialog: React.FC<BidItemDialogProps> = ({ item, show, onCancel }) =
     dispatch(setLoading(true))
     onCancel()
     axios.post(bidItemEndpoint, { bidAmount: amount, itemId: item.itemId }).then((response) => {
-      const data: bidItemResponse = response.data;
+      const data: BidItemResponse = response.data;
       dispatch(bidItem(data.item))
       dispatch(showToast({
         type: 'success',
