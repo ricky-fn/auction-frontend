@@ -4,7 +4,6 @@ import { Container, Table, Button } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from './hooks/useAuth';
 import axios from 'axios';
-import './App.css'
 
 import Header from './components/Header'
 import BidItemDialog from './components/BidItemDialog';
