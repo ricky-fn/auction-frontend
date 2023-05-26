@@ -2,6 +2,10 @@
 
 This is the frontend project for the [Auction System](https://github.com/ricky-fn/auction-app) application. It provides the user interface and client-side functionality for the application.
 
+# Demo
+
+Check out the live demo of the application: [Auction System Demo](https://d75exnbwk18vb.cloudfront.net)
+
 ## Technologies Used
 
 - Vite
